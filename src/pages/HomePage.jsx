@@ -25,7 +25,7 @@ const HomePage = () => {
             <Link
                 to="/briefing"
                 className="btn btn-primary inline-block"
-                onclick={handleStartBriefing}
+                onClick={handleStartBriefing}
             >
                 Start My Briefing
             </Link>
