@@ -8,7 +8,7 @@ const Footer = () => {
               <div className="mb-4 md:mb-0">
                 <h3 className="text-xl font-bold mb-2">CrispNews</h3>
                 <p className="text-gray-300">
-                  Stay informed in minutes, not hours.
+                  Smart news, snack-sized.
                 </p>
               </div>
               <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6">
