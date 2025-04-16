@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
+import { getFromLocalStorage, saveToLocalStorage } from '../utils/localStorage';
 
 // Define the default preferences
 const defaultPreferences = {

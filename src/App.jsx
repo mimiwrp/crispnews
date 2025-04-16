@@ -4,7 +4,7 @@ import Layout from './components/layout/Layout';
 import HomePage from './pages/HomePage';
 import BriefingPage from './pages/BriefingPage';
 import SettingsPage from './pages/SettingsPage';
-import { PreferencesProvider } from './context/PreferenceContext';
+import { PreferencesProvider } from './context/PreferencesContext';
 import './index.css';
 
 function App() {
