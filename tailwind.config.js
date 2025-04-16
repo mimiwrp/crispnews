@@ -8,23 +8,22 @@ export default {
       extend: {
         colors: {
           primary: {
-            50: '#f0f9ff',
-            100: '#e0f2fe',
-            200: '#bae6fd',
-            300: '#7dd3fc',
-            400: '#38bdf8',
-            500: '#0ea5e9',
-            600: '#0284c7',
-            700: '#0369a1',
-            800: '#075985',
-            900: '#0c4a6e',
+            50: '#F5F3FF',
+            100: '#EDEBFE',
+            200: '#DDD6FE',
+            300: '#C4B5FD',
+            400: '#A78BFA',
+            500: '#8B5CF6', // Core color
+            600: '#7C3AED',
+            700: '#6D28D9',
+            800: '#5B21B6',
+            900: '#4C1D95',
           },
-          // Add category-specific colors here
-          economy: '#2E7D32', // Green
-          politics: '#C62828', // Red
-          finance: '#1565C0', // Blue
-          tech: '#6A1B9A', // Purple
-          highlights: '#F57F17', // Orange
+          economy: '#26A69A', 
+          politics: '#EF5350', 
+          finance: '#42A5F5', 
+          tech: '#AB47BC', 
+          highlights: '#FFA000',
         },
         fontFamily: {
           // Main font for headings and UI elements
