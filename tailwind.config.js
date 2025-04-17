@@ -8,42 +8,48 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: '#F5F3FF',
-          100: '#EDEBFE',
-          200: '#DDD6FE',
-          300: '#C4B5FD',
-          400: '#A78BFA',
-          500: '#8B5CF6', // Core color
-          600: '#7C3AED',
-          700: '#6D28D9',
-          800: '#5B21B6',
-          900: '#4C1D95',
+          50: '#FDF7E4',   // Lightest Vanilla
+          100: '#F5DEB3',  // Warm Vanilla
+          200: '#E6C9A8',  // Biscuit
+          300: '#D9B38C',  // Light Cookie
+          400: '#C28E5E',  // Medium Cookie
+          500: '#8B5A2B',  // Cookie Brown (Core color)
+          600: '#7C4E27',  // Darker Cookie
+          700: '#6B4423',  // Rich Chocolate
+          800: '#5C4033',  // Dark Chocolate
+          900: '#3A2A21',  // Darkest Chocolate
+          // Keep these for backward compatibility
+          DEFAULT: '#8B5A2B', // Cookie Brown
+          light: '#F5DEB3',   // Warm Vanilla 
+          dark: '#5C4033',    // Dark Chocolate
+          accent: '#D2691E',  // Caramel
+          neutral: '#E6C9A8', // Biscuit
         },
         // Category base colors
         economy: {
-          DEFAULT: '#26A69A', // Core color
-          light: '#E0F2F1',   // Light background variant
-          dark: '#00796B',    // Dark text variant
+          DEFAULT: '#8B5A2B', // Cookie Brown
+          light: '#F5DEB3',   // Warm Vanilla
+          dark: '#5C4033',    // Dark Chocolate
         },
         politics: {
-          DEFAULT: '#EF5350', // Core color
-          light: '#FFEBEE',   // Light background variant
-          dark: '#C62828',    // Dark text variant
+          DEFAULT: '#D2691E', // Caramel
+          light: '#F5DEB3',   // Warm Vanilla
+          dark: '#8B4513',    // Darker Caramel
         },
         finance: {
-          DEFAULT: '#42A5F5', // Core color
-          light: '#E3F2FD',   // Light background variant
-          dark: '#1565C0',    // Dark text variant
+          DEFAULT: '#CD853F', // Peru (lighter brown)
+          light: '#F5DEB3',   // Warm Vanilla
+          dark: '#8B5A2B',    // Cookie Brown
         },
         tech: {
-          DEFAULT: '#AB47BC', // Core color
-          light: '#F3E5F5',   // Light background variant
-          dark: '#7B1FA2',    // Dark text variant
+          DEFAULT: '#A0522D', // Sienna (reddish-brown)
+          light: '#F5DEB3',   // Warm Vanilla
+          dark: '#5C4033',    // Dark Chocolate
         },
         highlights: {
-          DEFAULT: '#FFA000', // Core color
-          light: '#FFF8E1',   // Light background variant
-          dark: '#FF6F00',    // Dark text variant
+          DEFAULT: '#D2691E', // Caramel
+          light: '#FAEBD7',   // Lighter Warm Vanilla
+          dark: '#8B4513',    // Darker Caramel
         },
       },
       backgroundColor: theme => ({
@@ -88,29 +94,29 @@ export default {
     function({ addUtilities }) {
       const newUtilities = {
         '.category-economy': {
-          '--category-color': '#26A69A',
-          '--category-bg': '#E0F2F1',
-          '--category-text': '#00796B',
+          '--category-color': '#8B5A2B',
+          '--category-bg': '#F5DEB3',
+          '--category-text': '#5C4033',
         },
         '.category-politics': {
-          '--category-color': '#EF5350',
-          '--category-bg': '#FFEBEE',
-          '--category-text': '#C62828',
+          '--category-color': '#D2691E',
+          '--category-bg': '#F5DEB3',
+          '--category-text': '#8B4513',
         },
         '.category-finance': {
-          '--category-color': '#42A5F5',
-          '--category-bg': '#E3F2FD',
-          '--category-text': '#1565C0',
+          '--category-color': '#CD853F',
+          '--category-bg': '#F5DEB3',
+          '--category-text': '#8B5A2B',
         },
         '.category-tech': {
-          '--category-color': '#AB47BC',
-          '--category-bg': '#F3E5F5',
-          '--category-text': '#7B1FA2',
+          '--category-color': '#A0522D',
+          '--category-bg': '#F5DEB3',
+          '--category-text': '#5C4033',
         },
         '.category-highlights': {
-          '--category-color': '#FFA000',
-          '--category-bg': '#FFF8E1',
-          '--category-text': '#FF6F00',
+          '--category-color': '#D2691E',
+          '--category-bg': '#FAEBD7',
+          '--category-text': '#8B4513',
         },
       }
       addUtilities(newUtilities)
