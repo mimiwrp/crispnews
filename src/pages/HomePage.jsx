@@ -15,10 +15,10 @@ import { useBriefing } from '../context/BriefingContext';
 const HomePage = () => {
   const navigate = useNavigate();
   const { 
-    selectedDuration, 
-    setSelectedDuration, 
-    selectedCategory, 
-    setSelectedCategory, 
+    selectedDuration,
+    setSelectedDuration,
+    selectedCategory,
+    setSelectedCategory,
     generateBriefing 
   } = useBriefing();
   
@@ -61,16 +61,16 @@ const HomePage = () => {
       {/* Time Duration Selector */}
       <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
         <TimeDurationSelector 
-          onDurationChange={handleDurationChange} 
-          initialDuration={selectedDuration} 
+          onDurationChange={handleDurationChange}
+          initialDuration={selectedDuration}
         />
       </div>
       
       {/* Category Selector */}
       <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
         <CategorySelector 
-          onCategoryChange={handleCategoryChange} 
-          initialCategory={selectedCategory} 
+          onCategoryChange={handleCategoryChange}
+          initialCategory={selectedCategory}
         />
       </div>
       

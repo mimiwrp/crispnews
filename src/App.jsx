@@ -1,30 +1,30 @@
-
-import './index.css';
-
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { BriefingProvider } from './context/BriefingContext';
-
-// Layout components
-import Layout from './components/layout/Layout';
-
-// Pages
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
-import BriefingPage from './pages/BriefingPage';
-import SettingsPage from './pages/SettingsPage';
+import NewsBriefing from './components/NewsBriefing';
+import Settings from './pages/SettingsPage';
+import { BriefingProvider } from './context/BriefingContext';
+import './index.css';
 
 function App() {
   return (
     <BriefingProvider>
       <Router>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/briefing/:categoryId" element={<BriefingPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="*" element={<HomePage />} />
-          </Routes>
-        </Layout>
+        <div className="min-h-screen bg-gray-50 font-body">
+          <Header />
+          
+          <main className="pb-20 md:pb-8">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/briefing/:categoryId" element={<NewsBriefing />} />
+              <Route path="/briefing" element={<NewsBriefing />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </main>
+
+          <Footer />
+        </div>
       </Router>
     </BriefingProvider>
   );
