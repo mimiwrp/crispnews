@@ -12,7 +12,7 @@ const Header = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex items-center">
-              <img src="/public/cn_logo.png" alt="Crisp News Logo" className="h-8 mr-2" />
+              <img src="/cn_logo.png" alt="Crisp News Logo" className="h-8 mr-2" />
               <span className="text-2xl font-bold">
                 <span className="text-gray-800">Crisp</span>
                 <span className="text-primary-600">News</span>
