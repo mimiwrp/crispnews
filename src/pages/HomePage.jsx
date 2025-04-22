@@ -67,7 +67,7 @@ const HomePage = () => {
         <div className="text-center p-3">
           <button 
             onClick={handleGenerateBriefing}
-            className={`px-8 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all ${getCategoryIconClass(selectedCategory)}`}
+            className={`px-8 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all bg-primary-500`}
           >
             Generate {categoryDetails.name} Briefing
           </button>
