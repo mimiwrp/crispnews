@@ -124,9 +124,9 @@ export const getCategoryClassNames = (categoryId) => {
  */
 export const getArticleCountForDuration = (duration) => {
   const articleCounts = {
-    1: 3,
-    3: 6,
-    5: 10
+    1: 5,
+    3: 10,
+    5: 15
   };
   
   return articleCounts[duration] || articleCounts[1];
