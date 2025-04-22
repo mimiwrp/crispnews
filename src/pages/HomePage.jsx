@@ -50,6 +50,14 @@ const HomePage = () => {
   return (
     <div className="max-w-4xl mx-auto p-4">
 
+      {/* Category Selector */}
+      <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+        <CategorySelector 
+          onCategoryChange={handleCategoryChange}
+          initialCategory={selectedCategory}
+        />
+      </div>
+
       {/* Time Duration Selector */}
       <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
         <TimeDurationSelector 
@@ -58,36 +66,11 @@ const HomePage = () => {
         />
       </div>
       
-      {/* Category Selector */}
-      <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-        <CategorySelector 
-          onCategoryChange={handleCategoryChange}
-          initialCategory={selectedCategory}
-        />
-      </div>
+
       
       {/* Generate Briefing Button */}
       <div className="bg-white rounded-xl shadow-sm p-6 text-center">
-        <h3 className="text-lg font-semibold mb-4">Your Personalized Briefing</h3>
-        
-        <div className={`mb-6 p-4 rounded-lg flex items-center justify-between ${getCategoryBgClass(selectedCategory)}`}>
-          <div className="flex items-center">
-            <div className={`w-12 h-12 rounded-full text-white flex items-center justify-center mr-3 ${getCategoryIconClass(selectedCategory)}`}>
-              <span className="text-xl">{categoryDetails.emoji}</span>
-            </div>
-            <div>
-              <h4 className={`font-bold ${getCategoryTextClass(selectedCategory)}`}>{categoryDetails.name}</h4>
-              <p className="text-gray-700">
-                {selectedDuration} minute briefing • {getArticleCountForDuration(selectedDuration)} articles
-              </p>
-            </div>
-          </div>
-          
-          <div className="text-sm text-gray-600">
-            Updated 15 minutes ago
-          </div>
-        </div>
-        
+ 
         <button 
           onClick={handleGenerateBriefing}
           className={`px-8 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all ${getCategoryIconClass(selectedCategory)}`}
@@ -95,9 +78,6 @@ const HomePage = () => {
           Generate {categoryDetails.name} Briefing
         </button>
         
-        <p className="mt-4 text-gray-500 text-sm">
-          Your briefing will be tailored to fit your {selectedDuration}-minute timeframe
-        </p>
       </div>
     </div>
   );
