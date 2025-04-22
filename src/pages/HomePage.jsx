@@ -50,35 +50,32 @@ const HomePage = () => {
   return (
     <div className="max-w-4xl mx-auto p-4">
 
-      {/* Category Selector */}
+      {/* Customization + action button box */}
       <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-        <CategorySelector 
-          onCategoryChange={handleCategoryChange}
-          initialCategory={selectedCategory}
-        />
-      </div>
-
-      {/* Time Duration Selector */}
-      <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-        <TimeDurationSelector 
-          onDurationChange={handleDurationChange}
-          initialDuration={selectedDuration}
-        />
-      </div>
-      
-
-      
-      {/* Generate Briefing Button */}
-      <div className="bg-white rounded-xl shadow-sm p-6 text-center">
- 
-        <button 
-          onClick={handleGenerateBriefing}
-          className={`px-8 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all ${getCategoryIconClass(selectedCategory)}`}
-        >
-          Generate {categoryDetails.name} Briefing
-        </button>
+        <div className="p-3">
+          <TimeDurationSelector 
+            onDurationChange={handleDurationChange}
+            initialDuration={selectedDuration}
+          />
+        </div>
+        <div className="p-3">
+          <CategorySelector 
+            onCategoryChange={handleCategoryChange}
+            initialCategory={selectedCategory}
+          />
+        </div>
+        <div className="text-center p-3">
+          <button 
+            onClick={handleGenerateBriefing}
+            className={`px-8 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all ${getCategoryIconClass(selectedCategory)}`}
+          >
+            Generate {categoryDetails.name} Briefing
+          </button>
+          
+        </div>
         
       </div>
+      
     </div>
   );
 };
