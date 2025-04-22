@@ -49,15 +49,7 @@ const HomePage = () => {
   
   return (
     <div className="max-w-4xl mx-auto p-4">
-      {/* Header */}
-      <div className="text-center mb-8 mt-4">
-        <h1 className="text-3xl font-bold">
-          <span className="text-gray-800">Crisp</span>
-          <span className="text-primary-600">News</span>
-        </h1>
-        <p className="text-gray-600 mt-2">Get personalized news briefings in the time you have</p>
-      </div>
-      
+
       {/* Time Duration Selector */}
       <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
         <TimeDurationSelector 
