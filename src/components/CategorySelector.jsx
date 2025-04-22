@@ -7,7 +7,7 @@ const CategorySelector = ({ onCategoryChange, initialCategory = 'highlights' }) 
   
   return (
     <div>
-      <h2 className="text-lg font-semibold mb-3">Select Category</h2>
+      {/* <h2 className="text-lg font-semibold mb-3">Category</h2> */}
       
       <div className="flex flex-wrap gap-3">
         {categories.map((category) => {
@@ -21,7 +21,7 @@ const CategorySelector = ({ onCategoryChange, initialCategory = 'highlights' }) 
                   : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
               }`}
             >
-              {category.name}
+              {category.emoji}&nbsp;{category.name}
             </button>
           );
         })}

@@ -2,9 +2,9 @@ import React from 'react';
 
 const TimeDurationSelector = ({ onDurationChange, initialDuration = 1 }) => {
   const durations = [
-    { value: 1, label: '1 Minute' },
-    { value: 3, label: '3 Minutes' },
-    { value: 5, label: '5 Minutes' }
+    { value: 1, label: '1 min' },
+    { value: 3, label: '3 min' },
+    { value: 5, label: '5 min' }
   ];
 
   return (
