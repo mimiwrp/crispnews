@@ -56,17 +56,17 @@ const HomePage = () => {
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
   };
-
-  const [showBriefing, setShowBriefing] = useState(false);
   
+  // Add a state to track if the briefing has been generated
+  const [showBriefing, setShowBriefing] = useState(false);
+
   // Handle the generate briefing button click
   const handleGenerateBriefing = async () => {
     try {
       // Generate the briefing using the context function
       await generateBriefing();
       
-      // No longer navigate to the briefing page, just stay on HomePage
-      // and the content will be shown below
+      // Show the briefing section
       setShowBriefing(true);
     } catch (error) {
       console.error('Error generating briefing:', error);
@@ -101,12 +101,12 @@ const HomePage = () => {
         </div>
       </div>
       
-      {/* Briefing Header Placeholder */}
+      {/* Briefing Header Component - only show after generating */}
       {showBriefing && (
-        <BriefingHeader 
-          isPlaying={isPlaying} 
-          togglePlayPause={togglePlayPause} 
-          currentBriefing={currentBriefing} 
+        <BriefingHeader
+          isPlaying={isPlaying}
+          togglePlayPause={togglePlayPause}
+          currentBriefing={currentBriefing}
           currentArticleIndex={currentArticleIndex}
           selectedDuration={selectedDuration}
           selectedCategory={selectedCategory}
@@ -114,8 +114,15 @@ const HomePage = () => {
         />
       )}
       
-      {/* News Content */}
-      <NewsContent 
+      {/* News Section Heading - conditional text based on whether briefing is shown */}
+      <div className="mb-4">
+        <h2 className="text-2xl font-bold">
+          {showBriefing ? 'In This Briefing' : `${categoryDetails?.name || selectedCategory} News`}
+        </h2>
+      </div>
+      
+      {/* News Content Component - always visible but will show loading/empty state as needed */}
+      <NewsContent
         isLoading={isLoading}
         error={error}
         currentBriefing={currentBriefing}

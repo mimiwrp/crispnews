@@ -7,8 +7,6 @@ const NewsContent = ({
 }) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold mb-4">In This Briefing</h2>
-      
       {/* Display loading state */}
       {isLoading && (
         <div className="card p-8 text-center">
