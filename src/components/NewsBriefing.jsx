@@ -28,47 +28,47 @@ function NewsBriefing() {
   const [currentArticleIndex, setCurrentArticleIndex] = useState(0);
   
   // Update selected category when route param changes
+  // But only if they're actually different to prevent loops
   useEffect(() => {
     if (categoryId && categoryId !== selectedCategory) {
       setSelectedCategory(categoryId);
     }
-  }, [categoryId, selectedCategory, setSelectedCategory]);
+  }, [categoryId]);  // Remove selectedCategory from dependencies
   
-  // Update route when category changes
-  useEffect(() => {
-    if (selectedCategory && selectedCategory !== categoryId) {
-      navigate(`/briefing/${selectedCategory}`);
+  // Update route when category changes manually (from button click)
+  // This should not respond to the selectedCategory state changes from the above effect
+  const handleCategoryChange = (newCategory) => {
+    if (newCategory !== selectedCategory) {
+      setSelectedCategory(newCategory);
+      navigate(`/briefing/${newCategory}`);
+      setCurrentArticleIndex(0);
     }
-  }, [selectedCategory, categoryId, navigate]);
+  };
   
   // Generate briefing when component mounts or params change
   useEffect(() => {
-    // Don't generate if we already have articles
-    if (currentBriefing.length === 0) {
+    // Only generate if we have a category selected and no articles
+    if (selectedCategory && currentBriefing.length === 0 && !isLoading) {
       generateBriefing().catch(err => {
         console.error('Error generating briefing:', err);
       });
     }
-  }, [generateBriefing, currentBriefing.length]);
+  }, [selectedCategory, currentBriefing.length, isLoading, generateBriefing]);
   
   // Toggle play/pause for audio version
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
   };
   
-  // Handle category change
-  const handleCategoryChange = (newCategory) => {
-    setSelectedCategory(newCategory);
-    setCurrentArticleIndex(0);
-  };
-  
   // Handle duration change
   const handleDurationChange = (newDuration) => {
-    setSelectedDuration(newDuration);
-    setCurrentArticleIndex(0);
-    generateBriefing().catch(err => {
-      console.error('Error generating briefing:', err);
-    });
+    if (newDuration !== selectedDuration) {
+      setSelectedDuration(newDuration);
+      setCurrentArticleIndex(0);
+      generateBriefing().catch(err => {
+        console.error('Error generating briefing:', err);
+      });
+    }
   };
   
   // Available categories
@@ -121,7 +121,7 @@ function NewsBriefing() {
       {/* Briefing Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
         <h1 className="text-2xl font-bold text-primary-700">
-          {categoryDetails.name} Briefing
+          {categoryDetails?.name || selectedCategory} Briefing
           <span className="ml-2 text-sm text-gray-500 font-normal">
             {selectedDuration} minute{selectedDuration > 1 ? 's' : ''}
           </span>
