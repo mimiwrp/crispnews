@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const BriefingHeader = ({ 
-  isPlaying, 
-  togglePlayPause, 
-  currentBriefing, 
+const BriefingHeader = ({
+  isPlaying,
+  togglePlayPause,
+  currentBriefing,
   currentArticleIndex,
   selectedDuration,
   selectedCategory,
   categoryDetails
 }) => {
+  const [isSaved, setIsSaved] = useState(false);
+
+  const handleSave = () => {
+    setIsSaved(!isSaved);
+    console.log('Saving briefing:', currentBriefing);
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mb-8">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
@@ -38,13 +45,19 @@ const BriefingHeader = ({
               )}
             </button>
             <button 
-              onClick={() => console.log('Saving briefing:', currentBriefing)}
-              className="btn btn-icon bg-green-500 text-white hover:bg-green-600"
-              title="Save briefing"
+              onClick={handleSave}
+              className="btn btn-icon transition-colors duration-200"
+              title={isSaved ? "Unsave briefing" : "Save briefing"}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
-              </svg>
+              {isSaved ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m17 21-5-4-5 4V3a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v18z" />
+                </svg>
+              )}
             </button>
           </div>
         )}
@@ -59,7 +72,7 @@ const BriefingHeader = ({
         <div className="mt-4">
           <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
             <div 
-              className="h-full bg-primary-600 rounded-full" 
+              className="h-full bg-primary-600 rounded-full"
               style={{ width: `${(currentArticleIndex / currentBriefing.length) * 100}%` }}
             ></div>
           </div>

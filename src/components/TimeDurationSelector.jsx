@@ -8,7 +8,7 @@ const TimeDurationSelector = ({ onDurationChange, initialDuration = 1 }) => {
   ];
 
   return (
-    <div class="flex items-center gap-10">
+    <div className="flex items-center gap-10">
       <div className="text-lg font-semibold">Catch me up in</div>
 
       
