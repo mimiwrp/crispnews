@@ -24,7 +24,10 @@ const HomePage = () => {
     currentBriefing,
     isLoading,
     error,
-    generateBriefing
+    generateBriefing,
+    // Add the new context values
+    briefingSummary,
+    isGenerating
   } = useBriefing();
   
   // State for audio playback
@@ -63,13 +66,17 @@ const HomePage = () => {
   // Handle the generate briefing button click
   const handleGenerateBriefing = async () => {
     try {
+      console.log('🎯 Generate button clicked');
+      
       // Generate the briefing using the context function
       await generateBriefing();
       
       // Show the briefing section
       setShowBriefing(true);
+      
+      console.log('✅ Briefing generation completed');
     } catch (error) {
-      console.error('Error generating briefing:', error);
+      console.error('❌ Error generating briefing:', error);
       // You could show an error message to the user here
     }
   };
@@ -94,9 +101,17 @@ const HomePage = () => {
         <div className="text-center p-3">
           <button 
             onClick={handleGenerateBriefing}
-            className={`px-8 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all bg-primary-500`}
+            disabled={isLoading || isGenerating}
+            className={`px-8 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all ${
+              isLoading || isGenerating 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-primary-500 hover:bg-primary-600'
+            }`}
           >
-            Generate {categoryDetails.name} Briefing
+            {isLoading || isGenerating 
+              ? 'Generating...' 
+              : `Generate ${categoryDetails.name} Briefing`
+            }
           </button>
         </div>
       </div>
@@ -111,6 +126,8 @@ const HomePage = () => {
           selectedDuration={selectedDuration}
           selectedCategory={selectedCategory}
           categoryDetails={categoryDetails}
+          isGenerating={isGenerating}        // New prop
+          briefingSummary={briefingSummary}  // New prop
         />
       )}
       

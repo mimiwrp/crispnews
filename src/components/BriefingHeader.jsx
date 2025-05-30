@@ -7,7 +7,9 @@ const BriefingHeader = ({
   currentArticleIndex,
   selectedDuration,
   selectedCategory,
-  categoryDetails
+  categoryDetails,
+  isGenerating, // New prop to show loading state
+  briefingSummary // New prop for the AI-generated summary
 }) => {
   const [isSaved, setIsSaved] = useState(false);
 
@@ -63,10 +65,27 @@ const BriefingHeader = ({
         )}
       </div>
       
-      <p className="text-gray-600">
-        Your personalized {categoryDetails?.name || selectedCategory} briefing will provide you with the most important news in just {selectedDuration} minute{selectedDuration > 1 ? 's' : ''}. Select your options above and click "Generate" to create your briefing.
-      </p>
-      
+      {/* Dynamic content based on briefing state */}
+      {isGenerating ? (
+        <div className="flex items-center gap-3 text-gray-600">
+          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-600"></div>
+          <p>Generating your personalized {categoryDetails?.name || selectedCategory} briefing...</p>
+        </div>
+      ) : briefingSummary ? (
+        <div className="space-y-3">
+          <p className="text-gray-800 leading-relaxed">
+            {briefingSummary}
+          </p>
+          <div className="text-sm text-gray-500">
+            {selectedDuration} minute {categoryDetails?.name || selectedCategory} briefing • {currentBriefing.length} articles
+          </div>
+        </div>
+      ) : (
+        <p className="text-gray-600">
+          Your personalized {categoryDetails?.name || selectedCategory} briefing will provide you with the most important news in just {selectedDuration} minute{selectedDuration > 1 ? 's' : ''}. Select your options above and click "Generate" to create your briefing.
+        </p>
+      )}
+
       {/* Progress Bar (for audio) */}
       {isPlaying && currentBriefing.length > 0 && (
         <div className="mt-4">
