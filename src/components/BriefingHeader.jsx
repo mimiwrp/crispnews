@@ -54,7 +54,7 @@ const BriefingHeader = ({
                 Audio not supported
               </div>
             )}
-            <button
+            <button 
               onClick={handleSave}
               className="btn btn-icon transition-colors duration-200"
               title={isSaved ? "Unsave briefing" : "Save briefing"}
@@ -80,11 +80,14 @@ const BriefingHeader = ({
           <p>Generating your personalized {categoryDetails?.name || selectedCategory} briefing...</p>
         </div>
       ) : briefingSummary ? (
-        <div className="space-y-3">
-          <p className="text-gray-800 leading-relaxed">
-            {briefingSummary}
-          </p>
-          <div className="text-sm text-gray-500">
+        <div className="space-y-4">
+          {/* Split briefing into paragraphs and display them nicely */}
+          {briefingSummary.split('\n\n').filter(paragraph => paragraph.trim()).map((paragraph, index) => (
+            <p key={index} className="text-gray-800 leading-relaxed">
+              {paragraph.trim()}
+            </p>
+          ))}
+          <div className="text-sm text-gray-500 mt-3 pt-3 border-t border-gray-200">
             {selectedDuration} minute {categoryDetails?.name || selectedCategory} briefing • {currentBriefing.length} articles
           </div>
         </div>
