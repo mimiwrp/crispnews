@@ -197,18 +197,14 @@ const HomePage = () => {
         />
       )}
       
-      {/* News Section Heading - conditional text based on whether briefing is shown */}
-      <div className="mb-4">
-        <h2 className="text-2xl font-bold">
-          {showBriefing ? 'In This Briefing' : `${categoryDetails?.name || selectedCategory} News`}
-        </h2>
-      </div>
-      
-      {/* News Content Component - always visible but will show loading/empty state as needed */}
+      {/* News Content Component - now includes the heading */}
       <NewsContent
         isLoading={isLoading}
         error={error}
         currentBriefing={currentBriefing}
+        showBriefing={showBriefing}
+        categoryDetails={categoryDetails}
+        selectedCategory={selectedCategory}
       />
     </div>
   );
