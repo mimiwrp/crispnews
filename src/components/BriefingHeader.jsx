@@ -8,8 +8,9 @@ const BriefingHeader = ({
   selectedDuration,
   selectedCategory,
   categoryDetails,
-  isGenerating, // New prop to show loading state
-  briefingSummary // New prop for the AI-generated summary
+  isGenerating,
+  briefingSummary,
+  isTTSSupported = true // New prop for TTS support
 }) => {
   const [isSaved, setIsSaved] = useState(false);
 
@@ -24,29 +25,36 @@ const BriefingHeader = ({
         <h2 className="text-2xl font-bold">Briefing</h2>
         
         {/* Audio Controls and Save Button */}
-        {currentBriefing.length > 0 && (
+        {currentBriefing.length > 0 && briefingSummary && (
           <div className="mt-3 sm:mt-0 flex items-center gap-2">
-            <button 
-              onClick={togglePlayPause}
-              className="btn flex items-center gap-2"
-            >
-              {isPlaying ? (
-                <>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                  </svg>
-                  Pause
-                </>
-              ) : (
-                <>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                  </svg>
-                  Listen
-                </>
-              )}
-            </button>
-            <button 
+            {isTTSSupported ? (
+              <button 
+                onClick={togglePlayPause}
+                className="btn flex items-center gap-2"
+                title={isPlaying ? "Pause audio" : "Listen to briefing"}
+              >
+                {isPlaying ? (
+                  <>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    Pause
+                  </>
+                ) : (
+                  <>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                    </svg>
+                    Listen
+                  </>
+                )}
+              </button>
+            ) : (
+              <div className="text-sm text-gray-500 italic">
+                Audio not supported
+              </div>
+            )}
+            <button
               onClick={handleSave}
               className="btn btn-icon transition-colors duration-200"
               title={isSaved ? "Unsave briefing" : "Save briefing"}

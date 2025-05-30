@@ -13,6 +13,7 @@ import {
   getArticleCountForDuration
 } from '../utils/categoryStyles';
 import { useBriefing } from '../context/BriefingContext';
+import ttsService, { toggleBriefingPlayback } from '../services/textToSpeechService'; // Import TTS
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -25,7 +26,6 @@ const HomePage = () => {
     isLoading,
     error,
     generateBriefing,
-    // Add the new context values
     briefingSummary,
     isGenerating
   } = useBriefing();
@@ -54,11 +54,60 @@ const HomePage = () => {
       });
     }
   }, [selectedCategory, currentBriefing.length, isLoading, generateBriefing]);
-  
-  // Toggle play/pause for audio version
+
+  // 🎯 NEW: Monitor TTS state changes
+  useEffect(() => {
+    const checkTTSState = () => {
+      const state = ttsService.getState();
+      const newIsPlaying = state.isPlaying && !state.isPaused;
+      
+      // Only update if state actually changed to avoid infinite loops
+      if (newIsPlaying !== isPlaying) {
+        console.log('🔄 TTS State changed:', { newIsPlaying, oldIsPlaying: isPlaying });
+        setIsPlaying(newIsPlaying);
+      }
+    };
+
+    // Check TTS state more frequently but with better logic
+    const interval = setInterval(checkTTSState, 200);
+    
+    return () => clearInterval(interval);
+  }, [isPlaying]); // Add isPlaying as dependency
+
+  // 🎯 NEW: Handle play/pause for TTS
   const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
+    console.log('🎵 Toggle play/pause clicked');
+    
+    if (!briefingSummary) {
+      console.warn('⚠️ No briefing summary to play');
+      return;
+    }
+
+    toggleBriefingPlayback(briefingSummary, isPlaying, {
+      onStart: () => {
+        console.log('🔊 TTS Started');
+        setIsPlaying(true);
+      },
+      onEnd: () => {
+        console.log('🔇 TTS Ended');
+        setIsPlaying(false);
+      },
+      onError: (error) => {
+        console.error('❌ TTS Error:', error);
+        setIsPlaying(false);
+        // Could show user notification here
+      }
+    });
   };
+
+  // 🎯 NEW: Stop audio when briefing changes
+  useEffect(() => {
+    // Stop any playing audio when briefing summary changes
+    if (isPlaying) {
+      ttsService.stop();
+      setIsPlaying(false);
+    }
+  }, [briefingSummary]);
   
   // Add a state to track if the briefing has been generated
   const [showBriefing, setShowBriefing] = useState(false);
@@ -67,6 +116,12 @@ const HomePage = () => {
   const handleGenerateBriefing = async () => {
     try {
       console.log('🎯 Generate button clicked');
+      
+      // Stop any playing audio
+      if (isPlaying) {
+        ttsService.stop();
+        setIsPlaying(false);
+      }
       
       // Generate the briefing using the context function
       await generateBriefing();
@@ -80,9 +135,19 @@ const HomePage = () => {
       // You could show an error message to the user here
     }
   };
+
+  // 🎯 NEW: Check if TTS is supported
+  const isTTSSupported = ttsService.isSupported();
   
   return (
     <div className="max-w-4xl mx-auto p-4">
+      
+      {/* TTS Support Warning */}
+      {!isTTSSupported && (
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+          ⚠️ Text-to-Speech is not supported in your browser. Audio features will be disabled.
+        </div>
+      )}
       
       {/* Customization + action button box */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
@@ -126,8 +191,9 @@ const HomePage = () => {
           selectedDuration={selectedDuration}
           selectedCategory={selectedCategory}
           categoryDetails={categoryDetails}
-          isGenerating={isGenerating}        // New prop
-          briefingSummary={briefingSummary}  // New prop
+          isGenerating={isGenerating}
+          briefingSummary={briefingSummary}
+          isTTSSupported={isTTSSupported} // Pass TTS support status
         />
       )}
       
