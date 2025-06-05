@@ -4,6 +4,7 @@ import TimeDurationSelector from '../components/TimeDurationSelector';
 import CategorySelector from '../components/CategorySelector';
 import BriefingHeader from '../components/BriefingHeader';
 import NewsContent from '../components/NewsContent';
+import AudioPlayer from '../components/AudioPlayer';
 import {
   getCategoryById,
   getCategoryBgClass,
@@ -138,9 +139,16 @@ const HomePage = () => {
 
   // 🎯 NEW: Check if TTS is supported
   const isTTSSupported = ttsService.isSupported();
-  
+
+  // Handle audio player close
+  const handleAudioPlayerClose = () => {
+    if (isPlaying) {
+      togglePlayPause(); // Stop the audio
+    }
+  };
+
   return (
-    <div className="max-w-4xl mx-auto p-4">
+    <div className="max-w-4xl mx-auto p-4 pb-20">
       
       {/* TTS Support Warning */}
       {!isTTSSupported && (
@@ -193,11 +201,11 @@ const HomePage = () => {
           categoryDetails={categoryDetails}
           isGenerating={isGenerating}
           briefingSummary={briefingSummary}
-          isTTSSupported={isTTSSupported} // Pass TTS support status
+          isTTSSupported={isTTSSupported}
         />
       )}
       
-      {/* News Content Component - now includes the heading */}
+      {/* News Content Component */}
       <NewsContent
         isLoading={isLoading}
         error={error}
@@ -205,6 +213,18 @@ const HomePage = () => {
         showBriefing={showBriefing}
         categoryDetails={categoryDetails}
         selectedCategory={selectedCategory}
+      />
+
+      {/* Audio Player */}
+      <AudioPlayer
+        isPlaying={isPlaying}
+        togglePlayPause={togglePlayPause}
+        currentArticleIndex={currentArticleIndex}
+        totalArticles={currentBriefing.length}
+        selectedDuration={selectedDuration}
+        categoryDetails={categoryDetails}
+        briefingSummary={briefingSummary}
+        onClose={handleAudioPlayerClose}
       />
     </div>
   );
