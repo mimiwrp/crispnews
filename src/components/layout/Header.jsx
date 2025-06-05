@@ -27,7 +27,7 @@ const Header = () => {
               >
                 Home
               </Link>
-              <Link
+              {/* <Link
                 to={location.pathname.includes('/briefing') ? location.pathname : '/briefing/highlights'}
                 className={`font-medium ${location.pathname.includes('/briefing') ? 'text-primary-600' : 'text-gray-600 hover:text-gray-900'}`}
               >
@@ -38,7 +38,7 @@ const Header = () => {
                 className={`font-medium ${location.pathname === '/settings' ? 'text-primary-600' : 'text-gray-600 hover:text-gray-900'}`}
               >
                 Settings
-              </Link>
+              </Link> */}
             </nav>
           </div>
         </div>
