@@ -9,13 +9,13 @@ const CategorySelector = ({ onCategoryChange, initialCategory = 'highlights' }) 
     <div>
       {/* <h2 className="text-lg font-semibold mb-3">Category</h2> */}
       
-      <div className="flex flex-wrap gap-3">
+      <div className="flex overflow-x-auto pb-2 gap-3 no-scrollbar">
         {categories.map((category) => {
           return (
             <button
               key={category.id}
               onClick={() => onCategoryChange(category.id)}
-              className={`px-4 py-2 rounded-full transition-all ${
+              className={`px-4 py-2 rounded-full transition-all whitespace-nowrap ${
                 initialCategory === category.id
                   ? 'bg-[#F4C44E] text-white'
                   : 'bg-gray-100 hover:bg-gray-200 text-gray-700'

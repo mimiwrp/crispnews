@@ -14,7 +14,7 @@ function App() {
         <div className="min-h-screen bg-gray-50 font-body">
           <Header />
           
-          <main className="pb-20 md:pb-8">
+          <main className="pb-16 md:pb-8">
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/briefing/:categoryId" element={<NewsBriefing />} />
