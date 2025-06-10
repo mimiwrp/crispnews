@@ -76,7 +76,7 @@ class TextToSpeechService {
         }
   
         // Set speech parameters
-        this.utterance.rate = options.rate || 1.3;     // Faster for busy users
+        this.utterance.rate = options.rate || 1.0;     // Faster for busy users
         this.utterance.pitch = options.pitch || 1.0;   // Normal pitch
         this.utterance.volume = options.volume || 1.0; // Full volume
   
@@ -187,7 +187,7 @@ class TextToSpeechService {
     });
   
     ttsService.speak(briefingText, {
-      rate: 1.3,  // Faster speed for busy users
+      rate: 1.0,  // Faster speed for busy users
       pitch: 1.0,
       volume: 1.0
     });
