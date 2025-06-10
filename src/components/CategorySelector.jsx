@@ -6,10 +6,14 @@ const CategorySelector = ({ onCategoryChange, initialCategory = 'highlights' }) 
   const categories = getAllCategories();
   
   return (
-    <div>
-      {/* <h2 className="text-lg font-semibold mb-3">Category</h2> */}
+    <div className="relative">
+      {/* Left gradient overlay */}
+      {/* <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none"></div> */}
       
-      <div className="flex overflow-x-auto pb-2 gap-3 no-scrollbar">
+      {/* Right gradient overlay */}
+      <div className="absolute right-[-1px] top-0 bottom-0 w-8 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none"></div>
+      
+      <div className="flex overflow-x-auto pb-0 gap-3 no-scrollbar">
         {categories.map((category) => {
           return (
             <button
