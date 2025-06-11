@@ -23,9 +23,9 @@ export const BriefingProvider = ({ children }) => {
   const [briefingSummary, setBriefingSummary] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
 
-  // Get API key from environment variables
-  const apiKey = import.meta.env.VITE_NEWS_API_KEY ||
-                 import.meta.env.REACT_APP_NEWS_API_KEY;
+  // Get API key from environment variables (updated for GNews)
+  const apiKey = import.meta.env.VITE_GNEWS_API_KEY ||
+                 import.meta.env.REACT_APP_GNEWS_API_KEY;
 
   // 🎯 Function to get the right number of articles based on duration
   const getArticleCount = (duration) => {
@@ -50,7 +50,7 @@ export const BriefingProvider = ({ children }) => {
       // Create the news service
       const newsService = createNewsService(apiKey);
 
-      // Map our category IDs to news API categories
+      // Map our category IDs to GNews API categories
       const categoryMap = {
         highlights: 'general',
         technology: 'technology',
@@ -58,9 +58,12 @@ export const BriefingProvider = ({ children }) => {
         science: 'science',
         sports: 'sports',
         economy: 'business',
-        politics: 'general',
+        politics: 'nation', // GNews uses 'nation' for political news
         finance: 'business',
-        tech: 'technology'
+        tech: 'technology',
+        health: 'health',
+        entertainment: 'entertainment',
+        world: 'world'
       };
 
       // Get news category for API

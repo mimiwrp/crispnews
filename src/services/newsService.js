@@ -1,24 +1,24 @@
 /**
- * NewsService - Service to handle API calls to News API
+ * NewsService - Service to handle API calls to GNews.io API
  */
 
-// Base URL for the News API
-const API_BASE_URL = 'https://newsapi.org/v2';
+// Base URL for the GNews API
+const API_BASE_URL = 'https://gnews.io/api/v4';
 
 // Default parameters for API requests
 const DEFAULT_PARAMS = {
   country: 'us',
-  pageSize: 5,
-  language: 'en'
+  max: 5,
+  lang: 'en'
 };
 
-// Available categories for news
-const CATEGORIES = ['general', 'technology', 'business', 'science', 'sports'];
+// Available categories for news (GNews.io categories)
+const CATEGORIES = ['general', 'world', 'nation', 'business', 'technology', 'entertainment', 'sports', 'science', 'health'];
 
-// Rate limiting
+// Rate limiting (GNews.io free tier: 100 requests/day)
 const RATE_LIMIT = {
   requestsPerDay: 100,
-  requestsPerMinute: 10
+  requestsPerMinute: 20 // GNews is more generous with minute limits
 };
 
 // Cache configuration
@@ -26,7 +26,7 @@ const CACHE_CONFIG = {
   // Cache duration in milliseconds (15 minutes)
   DURATION: 15 * 60 * 1000,
   // Cache key prefix
-  PREFIX: 'news_cache_'
+  PREFIX: 'gnews_cache_'
 };
 
 /**
@@ -106,8 +106,8 @@ const cache = {
 };
 
 /**
- * Creates a NewsService instance for handling News API requests
- * @param {string} apiKey - The API key for News API
+ * Creates a NewsService instance for handling GNews API requests
+ * @param {string} apiKey - The API key for GNews API
  * @returns {Object} - NewsService object with methods for API interaction
  */
 function createNewsService(apiKey) {
@@ -148,9 +148,9 @@ function createNewsService(apiKey) {
    * @param {Object} options - Options for the request
    * @param {string} options.category - Category of news
    * @param {string} options.country - Country code (default: 'us')
-   * @param {number} options.pageSize - Number of results per page
-   * @param {number} options.page - Page number
+   * @param {number} options.max - Number of results (renamed from pageSize for GNews)
    * @param {string} options.q - Search query
+   * @param {string} options.lang - Language code (default: 'en')
    * @returns {Promise<Object>} - Promise with the API response
    */
   const getTopHeadlines = async (options = {}) => {
@@ -158,6 +158,12 @@ function createNewsService(apiKey) {
       ...DEFAULT_PARAMS,
       ...options
     };
+
+    // Map pageSize to max for backward compatibility
+    if (options.pageSize && !options.max) {
+      params.max = options.pageSize;
+      delete params.pageSize;
+    }
 
     // Validate category if provided
     if (params.category && !CATEGORIES.includes(params.category)) {
@@ -181,12 +187,12 @@ function createNewsService(apiKey) {
     // Construct URL with query parameters
     const queryParams = new URLSearchParams();
     
-    // Add API key
-    queryParams.append('apiKey', apiKey);
+    // Add API token (GNews uses 'token' instead of 'apiKey')
+    queryParams.append('token', apiKey);
     
     // Add other parameters
     Object.entries(params).forEach(([key, value]) => {
-      if (value) {
+      if (value && key !== 'pageSize') { // Skip pageSize as we use 'max'
         queryParams.append(key, value);
       }
     });
@@ -197,24 +203,38 @@ function createNewsService(apiKey) {
       const response = await fetch(url);
       
       if (!response.ok) {
-        const errorData = await response.json();
         if (response.status === 429) {
           throw new Error('Rate limit exceeded. Please try again later.');
         }
-        throw new Error(`News API Error: ${errorData.message || response.statusText}`);
+        if (response.status === 401) {
+          throw new Error('Invalid API key. Please check your GNews API key.');
+        }
+        if (response.status === 403) {
+          throw new Error('API quota exceeded. Please upgrade your GNews plan.');
+        }
+        
+        const errorText = await response.text();
+        throw new Error(`GNews API Error: ${errorText || response.statusText}`);
       }
       
       const data = await response.json();
       
+      // Transform GNews response to match NewsAPI format for compatibility
+      const transformedData = {
+        status: 'ok',
+        totalResults: data.totalArticles || data.articles?.length || 0,
+        articles: data.articles || []
+      };
+      
       // Cache the response
-      cache.set(cacheKey, data);
+      cache.set(cacheKey, transformedData);
       
       // Check if we're in development mode
       if (import.meta.env.DEV) {
         console.log(`API Usage: ${requestCount}/${RATE_LIMIT.requestsPerDay} requests today`);
       }
       
-      return data;
+      return transformedData;
     } catch (error) {
       console.error('Error fetching top headlines:', error);
       throw error;
@@ -247,9 +267,9 @@ function createNewsService(apiKey) {
       5: 15     // 5 minutes: 15 articles
     };
     
-    const pageSize = pageSizeMap[duration] || DEFAULT_PARAMS.pageSize;
+    const max = pageSizeMap[duration] || DEFAULT_PARAMS.max;
     
-    return getHeadlinesByCategory(category, { pageSize });
+    return getHeadlinesByCategory(category, { max });
   };
 
   // Return the service API
